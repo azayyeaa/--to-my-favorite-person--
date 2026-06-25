@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>To My Favorite Person</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;font-family:system-ui,-apple-system,sans-serif;background:#050b18;color:#fff}
+.scene{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transition:.8s}
+.hidden{opacity:0;pointer-events:none;transform:scale(.98)}
+.sky{position:absolute;inset:0;background:linear-gradient(#07142c,#0d2147,#02050d)}
+#stars{position:absolute;inset:0}
+.star{position:absolute;width:2px;height:2px;border-radius:50%;background:#fff;animation:twinkle 2.5s infinite alternate}
+@keyframes twinkle{from{opacity:.2}to{opacity:1;transform:scale(1.8)}}
+.moon{position:absolute;top:70px;right:90px;width:120px;height:120px;border-radius:50%;background:#fffbe8;box-shadow:0 0 50px #fff8b0}
+.card{position:relative;z-index:2;width:min(700px,90vw);background:rgba(255,255,255,.08);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.15);padding:36px;border-radius:24px;text-align:center}
+h1{font-size:42px;margin:12px 0}
+h2{font-size:18px;color:#ffd4e5;letter-spacing:2px}
+p{white-space:pre-wrap;line-height:1.8;color:#eee;min-height:210px}
+button{margin-top:18px;padding:14px 30px;border:none;border-radius:999px;background:#ff7fb0;color:#fff;font-size:16px;cursor:pointer;transition:.25s}
+button:hover{transform:translateY(-2px) scale(1.03)}
+.envelope{width:220px;height:140px;background:#fff;border-radius:8px;position:relative;margin:20px auto;cursor:pointer;transition:.5s}
+.envelope:before{content:"";position:absolute;border-left:110px solid transparent;border-right:110px solid transparent;border-top:70px solid #f2d5df;left:0;top:0;transform-origin:top;transition:.6s}
+.envelope.open:before{transform:rotateX(180deg)}
+.note{position:absolute;left:15px;right:15px;bottom:15px;height:90px;background:#fffaf2;border-radius:6px;transform:translateY(0);transition:.6s}
+.envelope.open .note{transform:translateY(-70px)}
+#hearts{position:absolute;inset:0;pointer-events:none}
+.heart{position:absolute;bottom:-20px;color:#ff94be;animation:fly 5s linear forwards}
+@keyframes fly{to{transform:translateY(-110vh);opacity:0}}
+.fadeText{font-size:28px;animation:pulse 2s infinite}
+@keyframes pulse{50%{opacity:.4}}
+.small{min-height:auto}
+</style>
+</head>
+<body>
+<div class="sky"></div>
+<div class="moon"></div>
+<div id="stars"></div>
+<div id="hearts"></div>
+
+<section id="loading" class="scene">
+<div class="card">
+<div class="fadeText" id="loadText">Made with love...</div>
+</div>
+</section>
+
+<section id="welcome" class="scene hidden">
+<div class="card">
+<h2>A Little Surprise ♡</h2>
+<h1>Nayla Cahaya Putri Handayani</h1>
+<p class="small">I made a tiny place on the internet just for you.</p>
+<button onclick="goEnvelope()">Begin</button>
+</div>
+</section>
+
+<section id="envelopeScene" class="scene hidden">
+<div class="card">
+<h2>Tap the envelope</h2>
+<div class="envelope" id="env" onclick="openEnvelope()">
+<div class="note"></div>
+</div>
+</div>
+</section>
+
+<section id="letter" class="scene hidden">
+<div class="card">
+<h2>To My Favorite Person</h2>
+<p id="typing"></p>
+<button onclick="ending()">One Last Thing</button>
+</div>
+</section>
+
+<section id="end" class="scene hidden">
+<div class="card">
+<h2>Good Night ♡</h2>
+<h1>Sleep Well</h1>
+<p>
+No matter how your day went...
+
+I hope tonight brings you peace.
+
+Thank you for existing.
+
+Thank you for being you.
+
+Good night,
+Nayla Cahaya Putri Handayani.
+
+Dream of beautiful things...
+
+and maybe...
+
+dream of me too. ♡
+</p>
+</div>
+</section>
+
+<script>
+for(let i=0;i<220;i++){
+ let s=document.createElement('div');
+ s.className='star';
+ s.style.left=Math.random()*100+'vw';
+ s.style.top=Math.random()*100+'vh';
+ s.style.animationDelay=Math.random()*2+'s';
+ document.getElementById('stars').appendChild(s);
+}
+const msgs=["Made with love...","Just for one person...","Nayla Cahaya Putri Handayani ♡"];
+let idx=0;
+setInterval(()=>{
+ idx++;
+ if(idx<msgs.length)document.getElementById('loadText').textContent=msgs[idx];
+ if(idx===3){
+  document.getElementById('loading').classList.add('hidden');
+  document.getElementById('welcome').classList.remove('hidden');
+ }
+},1800);
+
+function goEnvelope(){
+welcome.classList.add('hidden');
+envelopeScene.classList.remove('hidden');
+}
+const letter=`Hey, Nayla.
+
+I don't know if this is the best gift...
+but every line here was written with you in mind.
+
+I hope you smile a little after reading this.
+
+If today was hard,
+I hope tomorrow is gentler.
+
+If today was beautiful,
+I hope tomorrow is even better.
+
+Take a deep breath,
+close your eyes,
+and let the stars watch over you tonight.
+
+You're more special than you think.
+
+Sleep well, pretty. ♡`;
+function openEnvelope(){
+env.classList.add('open');
+setTimeout(()=>{
+envelopeScene.classList.add('hidden');
+document.getElementById('letter').classList.remove('hidden');
+type();
+},900)
+}
+let i=0;
+function type(){
+ if(i<letter.length){
+  typing.textContent+=letter.charAt(i++);
+  setTimeout(type,28);
+ }
+}
+function ending(){
+letterSection=document.getElementById('letter');
+letterSection.classList.add('hidden');
+document.getElementById('end').classList.remove('hidden');
+for(let i=0;i<70;i++){
+ setTimeout(()=>{
+ let h=document.createElement('div');
+ h.className='heart';
+ h.textContent='♡';
+ h.style.left=Math.random()*100+'vw';
+ h.style.fontSize=(14+Math.random()*18)+'px';
+ hearts.appendChild(h);
+ setTimeout(()=>h.remove(),5000);
+ },i*60);
+}
+}
+</script>
+</body>
+</html>
